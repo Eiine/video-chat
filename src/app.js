@@ -1,11 +1,21 @@
 import express from "express";
 const app = express();
-const port = 3000;
+const port = 3001;
+import { Server as SocketIO } from "socket.io";
+import http from "http";
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+const server = http.createServer(app);
+const io = new SocketIO(server);
+
+//configuracion de archivos staticos
+app.use(express.static("./src/public"));
+
+//configuracion de coneccion
+
+io.on("connection", () => {
+  console.log("nueva coneccion");
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+server.listen(port, () => {
+  console.log("server corriendo en " + port);
 });
