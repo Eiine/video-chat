@@ -10,14 +10,15 @@ const io = new SocketIO(server);
 
 //configuracion de archivos staticos
 app.use(express.static("./src/public"));
-
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 //configuracion de coneccion
 
 io.on("connection", function (socket) {
-  console.log("hola");
-  socket.on("stream", function (stream) {
-    console.log("perra");
-    socket.broadcast.emit("stream", stream);
+  console.log("connetado a soket: ", socket.id);
+  socket.on("stream", function (canva) {
+    let canvas = canva;
+    socket.broadcast.emit("stream", canvas);
   });
 });
 
